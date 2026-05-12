@@ -8,7 +8,7 @@ private registry data.
 
 ## Release Assets
 
-Test release: `v0.2.47-public-test.1`
+Test release: `v0.2.48-public-test.1`
 
 - Windows: `agi-peer-windows-x64.exe`
 - Linux: `agi-peer-linux-x64`
@@ -33,17 +33,18 @@ ChatGPT/Codex CLI setup, create `<workspace>/config/llm.json`:
 Run Windows:
 
 ```powershell
-$env:AUTORESEARCH_PUBLIC_NETWORK_MANIFEST_URL="https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json"
 .\agi-peer-windows-x64.exe --workspace .\workspace
 ```
 
 Run Linux:
 
 ```bash
-export AUTORESEARCH_PUBLIC_NETWORK_MANIFEST_URL="https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json"
 chmod +x ./agi-peer-linux-x64
 ./agi-peer-linux-x64 --workspace ./workspace
 ```
+
+The portable embeds this public manifest by default:
+`https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json`
 
 ## Status
 
@@ -63,4 +64,3 @@ Expected healthy startup:
 Provider quota or rate-limit pauses are reported in `metrics.json` under
 `llm_progress.provider_status`, `provider_last_pause_kind`, and
 `provider_paused_until`.
-
