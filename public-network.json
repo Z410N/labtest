@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "registry_git_url": "",
+  "registry_ref": "",
+  "bootstrap_peers": [
+    "/ip4/46.101.185.184/tcp/4101/p2p/12D3KooWFim2EAnU4CjRtWD7JjTXsBqcjE8gnR6MeXioAcNNVsiV",
+    "/ip4/134.209.234.191/tcp/4101/p2p/12D3KooWSSD8PvJXBMA5cUxD5pGPL2iXU35wsDBbz128t6t7CCCU",
+    "/ip4/46.101.177.118/tcp/4101/p2p/12D3KooWAzPLLuZjLkGRJKh9hgbXB747XCsdsXECj2AcqkSKh2ph"
+  ],
+  "listen_multiaddrs": [
+    "/ip4/0.0.0.0/tcp/4101"
+  ],
+  "supported_projects": [
+    "gpt2-tinystories",
+    "astrophysics",
+    "financial-analysis"
+  ],
+  "default_project_id": "gpt2-tinystories",
+  "default_shared_experiment_id": "8569de794c1790c8528ea6ff9710b02417883b6dc5c477354e12c7c3f3bb12f5",
+  "bootstrap_timeout_seconds": 5.0,
+  "shared_experiment_discovery_seconds": 15.0,
+  "registry_publish_interval_seconds": 30.0,
+  "require_network": false,
+  "allow_create": false,
+  "cross_pollination_mode": "auto",
+  "max_cross_pollination_parents": 2,
+  "verification_mode": "community",
+  "verification_sample_rate": 1.0,
+  "verification_top_k": 3,
+  "verification_quorum": 2,
+  "verification_pass_size": 2
+}
+
