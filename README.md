@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.48-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.48-public-test.1)
+[`v0.2.49-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.49-public-test.1)
 
 ## What This Portable Does
 
@@ -64,9 +64,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.48-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.49-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.48-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.49-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -75,8 +75,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-94df213d30fa0c2ea5a695001c3db7251a267b5627c9bc645cbec259efaaf624  agi-peer-linux-x64
-b9bcb517b82e15f54933a7f55d72968243a50491d185fd824fb20cf14ffd95ef  agi-peer-windows-x64.exe
+7f00ff297adfd9bca702e6d135236c60d6c664da2e75d92af5883395ea83e453  agi-peer-linux-x64
+ad5dfc5069e3ddbd8a7a8682b0814b1333d606c56a15577e7c76259af9304555  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -378,6 +378,10 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
+- `v0.2.49` Windows `--print-config` confirmed `bootstrap_peers=[]` from the
+  public manifest;
+- `v0.2.49` includes automatic cleanup for stale `source=bootstrap` address-book
+  entries when starting as a seed with no configured bootstrap peers;
 - a no-env fresh Windows dry run connected to the three managed bootstrap peers
   used by the earlier `v0.2.48` gate;
 - the historical 60-minute five-peer public-mirror gate passed with `ok=true`;
