@@ -266,7 +266,7 @@ The expected public-test path is:
 ```text
 network-config=https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 startup-mode=automatic
-peer-directory-rendezvous=3
+peer-directory-rendezvous=1
 verification-mode=community
 starting peer for project=gpt2-tinystories
 ```
@@ -393,8 +393,8 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- `v0.2.50` Windows `--print-config` confirms `bootstrap_peers=[]` and
-  `peer_directory_urls` from the public manifest;
+- `v0.2.50` Windows `--print-config` confirms `bootstrap_peers=[]` and the
+  public peer-directory URL from the public manifest;
 - `v0.2.50` includes automatic cleanup for stale `source=bootstrap`
   address-book entries when starting as a seed with no configured bootstrap
   peers;
