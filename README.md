@@ -8,7 +8,7 @@ registry data, API keys, peer keys, or user secrets. The only public files here
 are:
 
 - this README;
-- `public-network.json`, the public bootstrap network manifest;
+- `public-network.json`, the public network manifest;
 - `checksums.txt`, the SHA256 digests for the current binaries;
 - release assets attached to the GitHub release.
 
@@ -20,7 +20,8 @@ Current public test release:
 The portable peer is a single executable that joins the AGI public test network.
 When it is running with a working LLM backend, it:
 
-- connects to the public bootstrap peers listed in `public-network.json`;
+- joins discovered peers when the public network policy provides reachable
+  addresses, or starts as the first seed when no peer is visible;
 - joins the default shared `gpt2-tinystories` research experiment;
 - asks your configured LLM to propose real research patches;
 - runs the local experiment loop and records signed run results;
@@ -37,7 +38,8 @@ verifier so more users can participate with one simple portable file.
 You need:
 
 - Windows 10/11 or a recent Linux x86_64 system;
-- network access to the public bootstrap peers over TCP;
+- normal outbound network access, and inbound TCP `4101` if you want your
+  machine to be reachable as a reusable seed;
 - one working LLM backend, either API-key based or a local flat-plan CLI login;
 - enough local disk space for the workspace, run records, logs, and temporary
   project files.
@@ -212,9 +214,10 @@ The portable embeds this public manifest by default:
 https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 ```
 
-That manifest currently uses public bootstrap peers only and leaves
+That manifest currently has no official static bootstrap peers and leaves
 `registry_git_url` empty, so normal users do not need GitHub credentials or the
-private AGI repository.
+private AGI repository. If no active peer address is discovered, your portable
+starts as the first seed for the default public experiment.
 
 Windows PowerShell:
 
@@ -248,7 +251,7 @@ At startup the peer prints:
 - the workspace path;
 - the network config source;
 - the selected LLM backend;
-- the number of configured public bootstrap peers;
+- whether static bootstrap peers are configured;
 - the selected project and experiment;
 - the verification mode.
 
@@ -261,11 +264,10 @@ verification-mode=community
 starting peer for project=gpt2-tinystories
 ```
 
-If public bootstrap peers are online, the peer should connect through P2P. If
-they are offline outside a scheduled test window, the peer may report that no
-bootstrap peers are reachable and start in fallback/seed mode. That is useful
-diagnostic behavior, but scheduled public tests should run with the bootstrap
-peers online.
+With the current public manifest, there are no official bootstrap peers. A
+first peer should start in seed mode. Later peers can only find it if they learn
+a reachable peer address through an explicit discovery plane, registry lease,
+relay/rendezvous path, DHT path, or manually shared multiaddr.
 
 ## Check Status
 
@@ -276,7 +278,7 @@ workspace/state/network/health.json
 workspace/state/network/metrics.json
 ```
 
-Healthy network status usually shows:
+Healthy network status with peers usually shows:
 
 ```json
 {
@@ -308,8 +310,9 @@ Healthy research and verification progress is visible in `metrics.json`:
 The exact counts depend on how long the peer has been running and how much
 peer work is available to verify. For a basic smoke test, look for:
 
-- `status` or `network_status` becoming `connected`;
-- `degraded=false` while bootstrap peers are reachable;
+- `status=seed` when no peers are visible, or `status=connected` after a
+  reachable peer address is discovered;
+- `degraded=false`;
 - `executed_runs` increasing after a real LLM call completes;
 - `completed_verifications` increasing when peer runs are available;
 - `llm_progress.success_count` increasing;
@@ -375,14 +378,16 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- a no-env fresh Windows dry run connected to the three bootstrap peers;
-- the official 60-minute five-peer public-mirror gate passed with `ok=true`;
+- a no-env fresh Windows dry run connected to the three managed bootstrap peers
+  used by the earlier `v0.2.48` gate;
+- the historical 60-minute five-peer public-mirror gate passed with `ok=true`;
 - five peers used real LLM calls;
-- Windows and Linux fresh-peer runs propagated through the bootstrap mesh;
+- Windows and Linux fresh-peer runs propagated through the historical
+  bootstrap-mediated mesh;
 - community verification completed;
 - the private registry stayed disabled for public onboarding.
 
-Known warning-level behavior from the accepted gate:
+Known warning-level behavior from the historical accepted gate:
 
 - direct fresh Windows to fresh Linux visibility may be absent while
   bootstrap-mediated data exchange still works;
@@ -409,9 +414,10 @@ or set the required API key environment variable in the same terminal.
 
 ### Connected peers stay at zero
 
-Check whether the public bootstrap peers are expected to be online for the
-current test window. The peer can start alone, but real public-network testing
-needs reachable bootstrap peers.
+With the current no-official-bootstrap manifest, a first peer can legitimately
+start alone in seed mode. For multi-peer testing, later peers need a reachable
+address for the seed through a discovery plane, registry lease, relay/rendezvous
+path, DHT path, or manually shared multiaddr.
 
 ### `executed_runs` does not increase
 
@@ -422,9 +428,8 @@ problems rather than P2P problems.
 
 ### Verifications stay at zero
 
-The peer needs non-self peer runs to verify. In a one-peer or offline-bootstrap
-test, research can run locally while community verification waits for peer
-work.
+The peer needs non-self peer runs to verify. In a one-peer test, research can
+run locally while community verification waits for peer work.
 
 ## Security And Privacy Notes
 

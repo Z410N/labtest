@@ -2,11 +2,7 @@
   "schema_version": 1,
   "registry_git_url": "",
   "registry_ref": "",
-  "bootstrap_peers": [
-    "/ip4/46.101.185.184/tcp/4101/p2p/12D3KooWFim2EAnU4CjRtWD7JjTXsBqcjE8gnR6MeXioAcNNVsiV",
-    "/ip4/134.209.234.191/tcp/4101/p2p/12D3KooWSSD8PvJXBMA5cUxD5pGPL2iXU35wsDBbz128t6t7CCCU",
-    "/ip4/46.101.177.118/tcp/4101/p2p/12D3KooWAzPLLuZjLkGRJKh9hgbXB747XCsdsXECj2AcqkSKh2ph"
-  ],
+  "bootstrap_peers": [],
   "listen_multiaddrs": [
     "/ip4/0.0.0.0/tcp/4101"
   ],
@@ -30,4 +26,3 @@
   "verification_quorum": 2,
   "verification_pass_size": 2
 }
-
