@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.49-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.49-public-test.1)
+[`v0.2.50-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.50-public-test.1)
 
 ## What This Portable Does
 
@@ -22,6 +22,8 @@ When it is running with a working LLM backend, it:
 
 - joins discovered peers when the public network policy provides reachable
   addresses, or starts as the first seed when no peer is visible;
+- publishes and reads short-lived signed peer-directory leases so later fresh
+  portables can find current seeds without an official bootstrap list;
 - joins the default shared `gpt2-tinystories` research experiment;
 - asks your configured LLM to propose real research patches;
 - runs the local experiment loop and records signed run results;
@@ -64,9 +66,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.49-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.50-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.49-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.50-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -75,8 +77,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-7f00ff297adfd9bca702e6d135236c60d6c664da2e75d92af5883395ea83e453  agi-peer-linux-x64
-ad5dfc5069e3ddbd8a7a8682b0814b1333d606c56a15577e7c76259af9304555  agi-peer-windows-x64.exe
+4cb42ad58ca4cf786cbd1d2355e8a8a3a67c8fb510a6f065fcfaab05ffaa8d13  agi-peer-linux-x64
+7278dd9357ac3c9a0f3f237261672b21e69868411dd19a8190d3ed123908adc3  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -216,8 +218,11 @@ https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 
 That manifest currently has no official static bootstrap peers and leaves
 `registry_git_url` empty, so normal users do not need GitHub credentials or the
-private AGI repository. If no active peer address is discovered, your portable
-starts as the first seed for the default public experiment.
+private AGI repository. It does include peer-directory rendezvous URLs. Your
+portable publishes a signed short-lived address lease there and reads leases
+from other peers. If no active peer address is discovered, your portable starts
+as the first seed for the default public experiment and keeps checking the
+directory for later peers.
 
 Windows PowerShell:
 
@@ -250,6 +255,7 @@ At startup the peer prints:
 
 - the workspace path;
 - the network config source;
+- the peer-directory rendezvous count;
 - the selected LLM backend;
 - whether static bootstrap peers are configured;
 - the selected project and experiment;
@@ -260,14 +266,17 @@ The expected public-test path is:
 ```text
 network-config=https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 startup-mode=automatic
+peer-directory-rendezvous=3
 verification-mode=community
 starting peer for project=gpt2-tinystories
 ```
 
 With the current public manifest, there are no official bootstrap peers. A
-first peer should start in seed mode. Later peers can only find it if they learn
-a reachable peer address through an explicit discovery plane, registry lease,
-relay/rendezvous path, DHT path, or manually shared multiaddr.
+first peer can start in seed mode and publish a signed lease to the peer
+directory. Later peers keep checking that directory and can join through any
+dialable lease they find. If your machine is behind NAT or a firewall, it may
+publish no reusable inbound address; it can still discover and dial a reachable
+public peer.
 
 ## Check Status
 
@@ -303,6 +312,10 @@ Healthy research and verification progress is visible in `metrics.json`:
   },
   "registry_publish": {
     "enabled": false
+  },
+  "peer_directory_publish": {
+    "enabled": true,
+    "success_count": 1
   }
 }
 ```
@@ -317,6 +330,8 @@ peer work is available to verify. For a basic smoke test, look for:
 - `completed_verifications` increasing when peer runs are available;
 - `llm_progress.success_count` increasing;
 - `llm_progress.failure_count=0` during a healthy provider window;
+- `peer_directory_publish.success_count` increasing when a directory endpoint
+  is reachable;
 - `registry_publish.enabled=false` for the public onboarding path.
 
 ## Provider Quota And Rate Limits
@@ -378,12 +393,17 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- `v0.2.49` Windows `--print-config` confirmed `bootstrap_peers=[]` from the
-  public manifest;
-- `v0.2.49` includes automatic cleanup for stale `source=bootstrap` address-book
-  entries when starting as a seed with no configured bootstrap peers;
-- a no-env fresh Windows dry run connected to the three managed bootstrap peers
-  used by the earlier `v0.2.48` gate;
+- `v0.2.50` Windows `--print-config` confirms `bootstrap_peers=[]` and
+  `peer_directory_urls` from the public manifest;
+- `v0.2.50` includes automatic cleanup for stale `source=bootstrap`
+  address-book entries when starting as a seed with no configured bootstrap
+  peers;
+- `v0.2.50` adds signed peer-directory publication/sync so unrelated fresh
+  peers can discover current seeds without official bootstrap peers;
+- source tests cover a peer that starts before a directory-discovered seed
+  appears and then connects through the directory-fed address book;
+- the earlier no-env fresh Windows dry run connected to the three managed
+  bootstrap peers used by the historical `v0.2.48` gate;
 - the historical 60-minute five-peer public-mirror gate passed with `ok=true`;
 - five peers used real LLM calls;
 - Windows and Linux fresh-peer runs propagated through the historical
@@ -419,9 +439,11 @@ or set the required API key environment variable in the same terminal.
 ### Connected peers stay at zero
 
 With the current no-official-bootstrap manifest, a first peer can legitimately
-start alone in seed mode. For multi-peer testing, later peers need a reachable
-address for the seed through a discovery plane, registry lease, relay/rendezvous
-path, DHT path, or manually shared multiaddr.
+start alone in seed mode. Later peers should discover it from the peer
+directory when the first peer has a dialable address and at least one directory
+endpoint is reachable. Check `peer_directory_publish` in `metrics.json`; if it
+is disabled or failing, the peer is running locally but not advertising through
+the shared rendezvous plane.
 
 ### `executed_runs` does not increase
 
