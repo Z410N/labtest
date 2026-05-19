@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.51-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.51-public-test.1)
+[`v0.2.52-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.52-public-test.1)
 
 ## What This Portable Does
 
@@ -66,9 +66,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.51-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.52-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.51-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.52-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -77,8 +77,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-9f4503bf2138f2d33180499520bc373acb1f36ae97322eacf811157d3a7e1e53  agi-peer-linux-x64
-18b290f8a43b05109f4d40a77d38be8feaadd4f3e17051e6a9b3578d2b04057a  agi-peer-windows-x64.exe
+105df0b4430d88280d37eff2203ee21dbf80100d83c0c28273038e8ee986deaf  agi-peer-linux-x64
+1277f6765c4ca57e47bd6fc254783c3a533331adbe8c09a0243034ab77d117fd  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -393,14 +393,15 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- `v0.2.51` Windows `--print-config` confirms `bootstrap_peers=[]` and the
+- `v0.2.52` Windows `--print-config` confirms `bootstrap_peers=[]` and the
   public peer-directory URL from the public manifest;
-- `v0.2.51` includes automatic cleanup for stale `source=bootstrap`
+- `v0.2.52` includes automatic cleanup for stale `source=bootstrap`
   address-book entries when starting as a seed with no configured bootstrap
   peers;
-- `v0.2.51` adds signed peer-directory publication/sync so unrelated fresh
-  peers can discover current seeds without official bootstrap peers and ignores
-  non-public loopback/LAN leases as public bootstrap targets;
+- `v0.2.52` publishes signed peer-directory leases, syncs directory leases over
+  both the public rendezvous endpoint and connected peers, ignores non-public
+  loopback/LAN leases as public bootstrap targets, and backs off noisy repeated
+  connection/provider failures;
 - source tests cover a peer that starts before a directory-discovered seed
   appears and then connects through the directory-fed address book;
 - the earlier no-env fresh Windows dry run connected to the three managed
