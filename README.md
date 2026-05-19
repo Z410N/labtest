@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.56-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.56-public-test.1)
+[`v0.2.57-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.57-public-test.1)
 
 ## What This Portable Does
 
@@ -66,9 +66,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.56-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.57-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.56-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.57-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -77,8 +77,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-164fc430da29a3c4b20aa02d872fc585e4b5a0dc5c47d5caf25378ad3aaff819  agi-peer-linux-x64
-de878c424b3e5cc2915a9f24906166b81b592cf48d853263866298c665661c95  agi-peer-windows-x64.exe
+f74f6c8cd96fd28c4b84622ca0f729ac8103eac6e38d690b905c7fe5bb9f67f7  agi-peer-linux-x64
+16deb7f6ef08ce5fbcd69355c13e859633e067fb97fd67ace919a5fd734242ec  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -404,20 +404,23 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- `v0.2.56` Windows `--print-config` confirms `bootstrap_peers=[]` and the
+- `v0.2.57` Windows `--print-config` confirms `bootstrap_peers=[]` and the
   public peer-directory URL from the public manifest;
-- `v0.2.56` includes automatic cleanup for stale seed-mode address-book entries
+- `v0.2.57` includes automatic cleanup for stale seed-mode address-book entries
   when starting as a seed with no active peers and no configured bootstrap
   peers;
-- `v0.2.56` publishes signed peer-directory leases, syncs directory leases over
+- `v0.2.57` publishes signed peer-directory leases, syncs directory leases over
   both the public rendezvous endpoint and connected peers, ignores non-public
   loopback/LAN leases as public bootstrap targets, and backs off noisy repeated
   connection/provider failures;
-- `v0.2.56` keeps headless auto-selection for services, but interactive
+- `v0.2.57` keeps headless auto-selection for services, but interactive
   startup now asks the user to choose the LLM backend even when a saved config
   exists or only one ready backend is found;
-- `v0.2.56` sends ChatGPT/Codex prompts to `codex exec` as UTF-8 and normalizes
+- `v0.2.57` sends ChatGPT/Codex prompts to `codex exec` as UTF-8 and normalizes
   ChatGPT model shortcuts like `5.5` to `gpt-5.5`;
+- `v0.2.57` reads local peer JSON files such as `llm.json`, `host_key.json`,
+  `address_book.json`, and `metrics.json` even if a Windows editor writes a
+  UTF-8 BOM, avoiding silent local-only fallback during libp2p startup;
 - source tests cover a peer that starts before a directory-discovered seed
   appears and then connects through the directory-fed address book;
 - the earlier no-env fresh Windows dry run connected to the three managed
