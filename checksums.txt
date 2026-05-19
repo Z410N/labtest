@@ -1,2 +1,2 @@
-105df0b4430d88280d37eff2203ee21dbf80100d83c0c28273038e8ee986deaf  agi-peer-linux-x64
-1277f6765c4ca57e47bd6fc254783c3a533331adbe8c09a0243034ab77d117fd  agi-peer-windows-x64.exe
+b7d0b66661b3cd00b2cf22beec820689c8bdc9fc384aeb01c188be1e980efde4  agi-peer-linux-x64
+9be1fcd323402ac691cff344d95af9fa2da372f699f265ea1c3612bb69d2936d  agi-peer-windows-x64.exe
