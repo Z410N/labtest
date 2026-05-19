@@ -19,6 +19,7 @@
   "bootstrap_timeout_seconds": 5.0,
   "shared_experiment_discovery_seconds": 15.0,
   "registry_publish_interval_seconds": 30.0,
+  "enable_upnp": true,
   "peer_directory_sync_interval_seconds": 10.0,
   "peer_directory_publish_interval_seconds": 10.0,
   "peer_directory_ttl_seconds": 60.0,

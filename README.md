@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.57-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.57-public-test.1)
+[`v0.2.58-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.58-public-test.1)
 
 ## What This Portable Does
 
@@ -24,6 +24,8 @@ When it is running with a working LLM backend, it:
   addresses, or starts as the first seed when no peer is visible;
 - publishes and reads short-lived signed peer-directory leases so later fresh
   portables can find current seeds without an official bootstrap list;
+- tries UPnP port mapping during public startup, and only treats observed public
+  addresses as dialable when the directory endpoint can probe that TCP port;
 - joins the default shared `gpt2-tinystories` research experiment;
 - asks your configured LLM to propose real research patches;
 - runs the local experiment loop and records signed run results;
@@ -40,8 +42,10 @@ verifier so more users can participate with one simple portable file.
 You need:
 
 - Windows 10/11 or a recent Linux x86_64 system;
-- normal outbound network access, and inbound TCP `4101` if you want your
-  machine to be reachable as a reusable seed;
+- normal outbound network access;
+- inbound TCP `4101`, UPnP, or manual port forwarding if you want your machine
+  to be reachable as a reusable seed. Without that, the peer can still join
+  reachable public peers outbound and participate in research/sync;
 - one working LLM backend, either API-key based or a local flat-plan CLI login;
 - enough local disk space for the workspace, run records, logs, and temporary
   project files.
@@ -66,9 +70,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.57-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.58-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.57-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.58-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -77,8 +81,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-f74f6c8cd96fd28c4b84622ca0f729ac8103eac6e38d690b905c7fe5bb9f67f7  agi-peer-linux-x64
-16deb7f6ef08ce5fbcd69355c13e859633e067fb97fd67ace919a5fd734242ec  agi-peer-windows-x64.exe
+54ed560cb56780e4f1ceeb09603831549e89923503eac484e4bfdaaeb02e3a51  agi-peer-linux-x64
+d8331c20b525497e87ffaa90b4ca375740fc9a018ead445fa5dc54eb38cca3a0  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
