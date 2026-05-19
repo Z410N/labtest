@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.54-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.54-public-test.1)
+[`v0.2.55-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.55-public-test.1)
 
 ## What This Portable Does
 
@@ -66,9 +66,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.54-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.55-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.54-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.55-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -77,8 +77,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-0621a5a50eb36d86efdcade9e1fff520627dfc7f13c43989ee019715e5035565  agi-peer-linux-x64
-4ea78a4d61302462899ab1ff6bab50d26a10331d9895b515e8043562bb0b49e1  agi-peer-windows-x64.exe
+d952007efbc7569eae055fc5b02032ba686c14e08ec7a8424dcda8be3d17864e  agi-peer-linux-x64
+bdd6d43a00522e2a25d6ad5a395b3518242547a82d2bec4dc879c18311f282fb  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -132,6 +132,9 @@ even when exactly one backend is already ready, so you can explicitly choose
 between a flat-plan CLI login and an API-key backend. After setup it saves only
 the backend choice and model in `workspace/config/llm.json`; API keys stay in
 your environment or in the optional local secret file created by guided setup.
+If `workspace/config/llm.json` already exists, the launcher still shows the LLM
+choice menu and marks the saved backend as the default; press Enter to keep it
+or choose another listed backend to replace the saved config.
 
 You can also create `workspace/config/llm.json` yourself before starting the
 peer. The file stores the backend choice, not the API key itself.
@@ -401,18 +404,18 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- `v0.2.54` Windows `--print-config` confirms `bootstrap_peers=[]` and the
+- `v0.2.55` Windows `--print-config` confirms `bootstrap_peers=[]` and the
   public peer-directory URL from the public manifest;
-- `v0.2.54` includes automatic cleanup for stale seed-mode address-book entries
+- `v0.2.55` includes automatic cleanup for stale seed-mode address-book entries
   when starting as a seed with no active peers and no configured bootstrap
   peers;
-- `v0.2.54` publishes signed peer-directory leases, syncs directory leases over
+- `v0.2.55` publishes signed peer-directory leases, syncs directory leases over
   both the public rendezvous endpoint and connected peers, ignores non-public
   loopback/LAN leases as public bootstrap targets, and backs off noisy repeated
   connection/provider failures;
-- `v0.2.54` keeps headless auto-selection for services, but interactive
-  first-run startup now asks the user to choose the detected LLM backend even
-  when only one ready backend is found;
+- `v0.2.55` keeps headless auto-selection for services, but interactive
+  startup now asks the user to choose the LLM backend even when a saved config
+  exists or only one ready backend is found;
 - source tests cover a peer that starts before a directory-discovered seed
   appears and then connects through the directory-fed address book;
 - the earlier no-env fresh Windows dry run connected to the three managed
