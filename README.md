@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.61-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.61-public-test.1)
+[`v0.2.62-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.62-public-test.1)
 
 ## What This Portable Does
 
@@ -70,9 +70,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.61-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.62-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.61-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.62-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -81,8 +81,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-e2a8ec35e15eb91e4552099d9f936be903db5de5bb0d770473b739a5573ff61d  agi-peer-linux-x64
-605e029e0357cc202a2b583a700761982babf37834a016604437a9908025c354  agi-peer-windows-x64.exe
+fde5be3bf7766cec15e1b4ff9f9160696f32e35a8a7b60ef5eeb843c05cc6ae2  agi-peer-linux-x64
+b5a3bd515ed42977b4db0d9aafa41bb1cc42bf73ae2fe780068f63fc3625940e  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -408,34 +408,36 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- `v0.2.61` Windows `--print-config` confirms `bootstrap_peers=[]` and the
+- `v0.2.62` Windows `--print-config` confirms `bootstrap_peers=[]` and the
   public peer-directory URL from the public manifest;
-- `v0.2.61` includes automatic cleanup for stale seed-mode address-book entries
+- `v0.2.62` includes automatic cleanup for stale seed-mode address-book entries
   when starting as a seed with no active peers and no configured bootstrap
   peers;
-- `v0.2.61` publishes signed peer-directory leases, syncs directory leases over
+- `v0.2.62` publishes signed peer-directory leases, syncs directory leases over
   both the public rendezvous endpoint and connected peers, ignores non-public
   loopback/LAN leases as public bootstrap targets, and backs off noisy repeated
   connection/provider failures;
-- `v0.2.61` keeps headless auto-selection for services, but interactive
+- `v0.2.62` keeps headless auto-selection for services, but interactive
   startup now asks the user to choose the LLM backend even when a saved config
   exists or only one ready backend is found;
-- `v0.2.61` sends ChatGPT/Codex prompts to `codex exec` as UTF-8 and normalizes
+- `v0.2.62` sends ChatGPT/Codex prompts to `codex exec` as UTF-8 and normalizes
   ChatGPT model shortcuts like `5.5` to `gpt-5.5`;
-- `v0.2.61` reads local peer JSON files such as `llm.json`, `host_key.json`,
+- `v0.2.62` reads local peer JSON files such as `llm.json`, `host_key.json`,
   `address_book.json`, and `metrics.json` even if a Windows editor writes a
   UTF-8 BOM, avoiding silent local-only fallback during libp2p startup;
-- `v0.2.61` keeps peer-directory lease signatures backward compatible with the
+- `v0.2.62` keeps peer-directory lease signatures backward compatible with the
   currently deployed public directory, so new diagnostic address fields do not
   cause `HTTP 403` publish failures on older directory servers;
-- `v0.2.61` throttles repeated libp2p `Rate limit exceeded` and
-  `Failed to open TCP stream` log lines to one visible message per short window,
-  raises the gossipsub burst allowance used during legitimate research backfill,
-  and prunes stale peer-directory addresses after repeated failed dials;
-- `v0.2.61` suppresses non-actionable libp2p wildcard security-upgrade noise
+- `v0.2.62` throttles repeated libp2p `Rate limit exceeded` log lines, suppresses
+  user-facing `Failed to open TCP stream` dial failures, raises the gossipsub
+  burst allowance used during legitimate research backfill, and prunes stale
+  peer-directory addresses after repeated failed dials;
+- `v0.2.62` suppresses non-actionable libp2p wildcard security-upgrade noise
   such as `/ip4/0.0.0.0/tcp/...`, suppresses transient unsupported
   `/autoresearch/...` protocol negotiation noise from half-started peers, and
-  prunes stale peer-directory addresses after two failed dials;
+  prunes stale peer-directory addresses after two failed dials, and moves
+  address-book reconnect attempts into a 5-minute quiet window after two failed
+  dials while keeping configured bootstrap peers more responsive;
 - a live compatibility smoke published a short-lived lease through the current
   public directory endpoint and confirmed it appeared in `/v1/peers`;
 - source tests cover a peer that starts before a directory-discovered seed
