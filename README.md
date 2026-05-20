@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.63-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.63-public-test.1)
+[`v0.2.64-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.64-public-test.1)
 
 ## What This Portable Does
 
@@ -33,7 +33,7 @@ When it is running with a working LLM backend, it:
 - verifies non-self peer runs in community-verifier mode;
 - keeps the private Git registry disabled for this public onboarding path.
 - prints compact `[network]` and `[experiment]` status lines so you can see
-  whether the peer is connected or waiting correctly, and whether real research
+  how many peers are connected, whether the peer is waiting correctly, and whether real research
   work is progressing.
 
 For the first public test phase, staking/slashing verifier registration is not
@@ -73,9 +73,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.63-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.64-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.63-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.64-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -84,8 +84,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-fe45278e0f03d321de8aefe1d511826d6f8cc7491a11192d8da9e40acf43f451  agi-peer-linux-x64
-0179a25a4d3cb4de9d2a7dcb9e0313130cbef55d46fc19489656bc7b4e8f95b7  agi-peer-windows-x64.exe
+0a2a0721852e4ffcf81b3c122ad0f3152b950f4a767ab90ccc2036ebe3e08ddb  agi-peer-linux-x64
+11a26c819f41c80c534e4381af98291dd76f1037a43bcdf81f511d13d758942b  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -302,7 +302,7 @@ public peer.
 The portable prints two compact status lines while it runs:
 
 ```text
-[network] OK status=connected peers=2 peer_id=12D3KooW...abcd degraded=no connected to peer network
+[network] OK status=connected connected_peers=2 peer_id=12D3KooW...abcd degraded=no connected to 2 peers
 [experiment] WORKING project=gpt2-tinystories mode=unified_peer runs=1 verifications=0 llm=1/2 failures=0 best_metric=3.42 llm_call=in_progress since=...
 ```
 
@@ -437,37 +437,37 @@ This release was tested before publication through the public mirror path:
 
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
-- `v0.2.63` Windows `--print-config` confirms `bootstrap_peers=[]` and the
+- `v0.2.64` Windows `--print-config` confirms `bootstrap_peers=[]` and the
   public peer-directory URL from the public manifest;
-- `v0.2.63` includes automatic cleanup for stale seed-mode address-book entries
+- `v0.2.64` includes automatic cleanup for stale seed-mode address-book entries
   when starting as a seed with no active peers and no configured bootstrap
   peers;
-- `v0.2.63` publishes signed peer-directory leases, syncs directory leases over
+- `v0.2.64` publishes signed peer-directory leases, syncs directory leases over
   both the public rendezvous endpoint and connected peers, ignores non-public
   loopback/LAN leases as public bootstrap targets, and backs off noisy repeated
   connection/provider failures;
-- `v0.2.63` keeps headless auto-selection for services, but interactive
+- `v0.2.64` keeps headless auto-selection for services, but interactive
   startup now asks the user to choose the LLM backend even when a saved config
   exists or only one ready backend is found;
-- `v0.2.63` sends ChatGPT/Codex prompts to `codex exec` as UTF-8 and normalizes
+- `v0.2.64` sends ChatGPT/Codex prompts to `codex exec` as UTF-8 and normalizes
   ChatGPT model shortcuts like `5.5` to `gpt-5.5`;
-- `v0.2.63` reads local peer JSON files such as `llm.json`, `host_key.json`,
+- `v0.2.64` reads local peer JSON files such as `llm.json`, `host_key.json`,
   `address_book.json`, and `metrics.json` even if a Windows editor writes a
   UTF-8 BOM, avoiding silent local-only fallback during libp2p startup;
-- `v0.2.63` keeps peer-directory lease signatures backward compatible with the
+- `v0.2.64` keeps peer-directory lease signatures backward compatible with the
   currently deployed public directory, so new diagnostic address fields do not
   cause `HTTP 403` publish failures on older directory servers;
-- `v0.2.63` throttles repeated libp2p `Rate limit exceeded` log lines, suppresses
+- `v0.2.64` throttles repeated libp2p `Rate limit exceeded` log lines, suppresses
   user-facing `Failed to open TCP stream` dial failures, raises the gossipsub
   burst allowance used during legitimate research backfill, and prunes stale
   peer-directory addresses after repeated failed dials;
-- `v0.2.63` suppresses non-actionable libp2p wildcard security-upgrade noise
+- `v0.2.64` suppresses non-actionable libp2p wildcard security-upgrade noise
   such as `/ip4/0.0.0.0/tcp/...`, suppresses transient unsupported
   `/autoresearch/...` protocol negotiation noise from half-started peers, and
   prunes stale peer-directory addresses after two failed dials, and moves
   address-book reconnect attempts into a 5-minute quiet window after two failed
   dials while keeping configured bootstrap peers more responsive;
-- `v0.2.63` adds live user-facing `[network]` and `[experiment]` console
+- `v0.2.64` adds live user-facing `[network]` and `[experiment]` console
   feedback so users can distinguish healthy peer connectivity, valid seed-mode
   waiting, active LLM work, recorded runs/verifications, and provider pauses;
 - a live compatibility smoke published a short-lived lease through the current
