@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.65-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.65-public-test.1)
+[`v0.2.66-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.66-public-test.1)
 
 ## What This Portable Does
 
@@ -27,8 +27,8 @@ When it is running with a working LLM backend, it:
 - tries UPnP port mapping during public startup, and only treats observed public
   addresses as dialable when the directory endpoint can probe that TCP port;
 - asks interactive users which shared experiment to join, listing the five most
-  active visible experiments first and offering row `6` to create a new public
-  shared experiment;
+  active visible experiments first and offering row `6` to open a free-form
+  new shared-experiment prompt;
 - asks your configured LLM to propose real research patches;
 - runs the local experiment loop and records signed run results;
 - receives run results from other peers over libp2p;
@@ -75,9 +75,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.65-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.66-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.65-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.66-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -86,8 +86,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-2563ae14409203d774dfb354709905ab29b3cc64864328a8ba1c5187c0fe27e6  agi-peer-linux-x64
-389e0277db3c51458f2be164976d30ac9aac9310e223f4fe0472c73349f45421  agi-peer-windows-x64.exe
+fc686bb6703b31f5e1cc0536c1cd8bf1933d4f56fa0434ed5a0a75da61499190  agi-peer-linux-x64
+5df42d7b020407ccff762913fbc364195c3cb112e5242ff16aeb6c41da16d55a  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -268,6 +268,38 @@ or:
 ```bash
 ./agi-peer-linux-x64 --workspace ./workspace --manual
 ```
+
+## Choose Or Create A Shared Experiment
+
+Interactive startup asks which shared experiment to join. The first five rows
+are the visible public experiments sorted by active peer count, so row `1` is
+the recommended most-active experiment. Row `6` creates a new shared experiment.
+
+When you choose row `6`, the portable asks only for:
+
+```text
+Experiment name [New shared experiment]:
+Goal/summary [optional]:
+```
+
+It does not ask you to choose from internal project/runtime names. A new shared
+experiment is a new public research room on the bundled public runtime from
+`public-network.json`, currently `gpt2-tinystories`. That keeps the startup
+simple and ensures other portable peers can run and verify the same task.
+
+To create and use a shared experiment successfully:
+
+- use a writable workspace so the local shared-experiment record can be saved;
+- configure a working LLM backend so the peer can produce real research runs;
+- keep at least one peer for that experiment online so its short-lived
+  peer-directory lease remains discoverable by later fresh portables;
+- use normal public no-registry startup unless an operator has explicitly given
+  you a Git-backed registry override.
+
+A completely new runtime/project is different. It must be packaged in a future
+portable release with project config, training/evaluation entry points, dataset
+access, metric definition, resource limits, and verification/replay rules that
+every peer can reproduce.
 
 ## What Healthy Startup Looks Like
 
