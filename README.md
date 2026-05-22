@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.67-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.67-public-test.1)
+[`v0.2.68-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.68-public-test.1)
 
 ## What This Portable Does
 
@@ -26,9 +26,9 @@ When it is running with a working LLM backend, it:
   portables can find current seeds without an official bootstrap list;
 - tries UPnP port mapping during public startup, and only treats observed public
   addresses as dialable when the directory endpoint can probe that TCP port;
-- asks interactive users which approved public runtime and visible shared
-  experiment to join; the normal public menu does not create new shared
-  experiments for now;
+- asks interactive users which approved public runtime to join; each runtime
+  maps to a stable canonical shared experiment, and the normal public menu does
+  not create new shared experiments for now;
 - asks your configured LLM to propose real research patches;
 - runs the local experiment loop and records signed run results;
 - receives run results from other peers over libp2p;
@@ -75,9 +75,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.67-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.68-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.67-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.68-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -86,8 +86,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-bccc02b7fddf26d1a6f5611a4522336ca998380745fc7c06ec3e12938830baf8  agi-peer-linux-x64
-04afcf68e9debaa5e3c51ea2a71dc1efd0e5fea5eaeaa60104fa4994791b219c  agi-peer-windows-x64.exe
+fe05e10deb5192b373736359530c0c3f86742d3a86365fc33cbd489b8f709bad  agi-peer-linux-x64
+1931c589dbdac916add89bf01d31e17fdb85eb85633c4a74eed426f3bee0d477  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -241,7 +241,7 @@ That manifest currently has no official static bootstrap peers and leaves
 private AGI repository. It does include peer-directory rendezvous URLs. Your
 portable publishes a signed short-lived address lease there and reads leases
 from other peers. If no active peer address is discovered, your portable starts
-as the first seed for the default public experiment and keeps checking the
+as the first seed for the selected approved runtime and keeps checking the
 directory for later peers.
 
 Windows PowerShell:
@@ -278,14 +278,16 @@ Interactive startup shows the approved public runtimes from
 - `astrophysics`
 - `financial-analysis`
 
-It then asks which visible shared experiment to join. The first five experiment
-rows are sorted by active peer count, so row `1` is the recommended most-active
-experiment.
+It then asks which approved runtime to join. The rows are sorted by active peer
+count, so row `1` is the recommended runtime when peers are already visible.
+When a runtime has no visible peer yet, selecting it starts your portable as the
+first seed for that runtime's canonical shared experiment. For example,
+selecting `2` for `astrophysics` or `3` for `financial-analysis` is valid even
+when the active peer count is `0`.
 
 The normal public portable menu does not create new shared experiments for now.
-Users join approved runtimes and visible experiments only. This keeps public
-startup simple and avoids letting one machine define a research task that other
-peers cannot reproduce.
+Users join approved runtimes only. This keeps public startup simple and avoids
+letting one machine define a research task that other peers cannot reproduce.
 
 A completely new runtime/project is different. It must be packaged in a future
 portable release with project config, training/evaluation entry points, dataset
