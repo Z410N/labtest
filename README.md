@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.64-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.64-public-test.1)
+[`v0.2.65-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.65-public-test.1)
 
 ## What This Portable Does
 
@@ -26,7 +26,9 @@ When it is running with a working LLM backend, it:
   portables can find current seeds without an official bootstrap list;
 - tries UPnP port mapping during public startup, and only treats observed public
   addresses as dialable when the directory endpoint can probe that TCP port;
-- joins the default shared `gpt2-tinystories` research experiment;
+- asks interactive users which shared experiment to join, listing the five most
+  active visible experiments first and offering row `6` to create a new public
+  shared experiment;
 - asks your configured LLM to propose real research patches;
 - runs the local experiment loop and records signed run results;
 - receives run results from other peers over libp2p;
@@ -73,9 +75,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.64-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.65-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.64-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.65-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -84,8 +86,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-0a2a0721852e4ffcf81b3c122ad0f3152b950f4a767ab90ccc2036ebe3e08ddb  agi-peer-linux-x64
-11a26c819f41c80c534e4381af98291dd76f1037a43bcdf81f511d13d758942b  agi-peer-windows-x64.exe
+2563ae14409203d774dfb354709905ab29b3cc64864328a8ba1c5187c0fe27e6  agi-peer-linux-x64
+389e0277db3c51458f2be164976d30ac9aac9310e223f4fe0472c73349f45421  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
