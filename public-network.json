@@ -25,7 +25,7 @@
   "peer_directory_ttl_seconds": 60.0,
   "peer_directory_timeout_seconds": 3.0,
   "require_network": false,
-  "allow_create": true,
+  "allow_create": false,
   "cross_pollination_mode": "auto",
   "max_cross_pollination_parents": 2,
   "verification_mode": "community",
