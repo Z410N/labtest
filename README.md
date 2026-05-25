@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.72-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.72-public-test.1)
+[`v0.2.73-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.73-public-test.1)
 
 ## What This Portable Does
 
@@ -75,9 +75,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.72-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.73-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.72-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.73-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -86,8 +86,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-dc52496e37dd8a6d01c9d58570b595faf7d95fcda8a97e1ba4eb0a2ee1c23539  agi-peer-linux-x64
-00fd8d95f227e0b4247736cf8cb122c70b2d472b95248871827de8739b96f2ce  agi-peer-windows-x64.exe
+ef75a9903490ca1da810a366add2cc4f297f1ccb1389cb9374155b5ae4245228  agi-peer-linux-x64
+f12bb5d9bd3b947653dc7e30684b84c0e422ccc97bfba7d69394b7655ac93849  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -462,7 +462,7 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 
 This release was tested before publication through the public mirror path:
 
-- `v0.2.72` keeps application-level sync away from configured rendezvous-only
+- `v0.2.73` keeps application-level sync away from configured rendezvous-only
   peers and backs off unsupported peer-directory sync for several minutes, so
   clients can use libp2p rendezvous for discovery without repeated unsupported
   `/autoresearch/...` protocol negotiation messages;
