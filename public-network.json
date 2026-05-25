@@ -3,9 +3,12 @@
   "registry_git_url": "",
   "registry_ref": "",
   "bootstrap_peers": [],
-  "peer_directory_urls": [
-    "http://46.101.185.184:4101/v1/peers"
+  "peer_directory_urls": [],
+  "libp2p_rendezvous_peers": [
+    "/ip4/46.101.185.184/tcp/4101/p2p/12D3KooWJhkK1dLhFyrJpdoBMz5daC1RA4E75r2CU1weExcmds9C",
+    "/ip4/134.209.234.191/tcp/4101/p2p/12D3KooWBhdvHHvGXcSfLaf1ykBKpc154vvFzaq6Er3yWsrYFgun"
   ],
+  "libp2p_rendezvous_namespaces": [],
   "listen_multiaddrs": [
     "/ip4/0.0.0.0/tcp/4101"
   ],
@@ -19,7 +22,12 @@
   "bootstrap_timeout_seconds": 5.0,
   "shared_experiment_discovery_seconds": 15.0,
   "registry_publish_interval_seconds": 30.0,
+  "enable_dht": false,
   "enable_upnp": true,
+  "enable_libp2p_rendezvous_service": true,
+  "libp2p_rendezvous_register_ttl_seconds": 600.0,
+  "libp2p_rendezvous_discovery_interval_seconds": 10.0,
+  "libp2p_rendezvous_discover_limit": 20,
   "peer_directory_sync_interval_seconds": 10.0,
   "peer_directory_publish_interval_seconds": 10.0,
   "peer_directory_ttl_seconds": 60.0,

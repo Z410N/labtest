@@ -20,12 +20,12 @@ Current public test release:
 The portable peer is a single executable that joins the AGI public test network.
 When it is running with a working LLM backend, it:
 
-- joins discovered peers when the public network policy provides reachable
-  addresses, or starts as the first seed when no peer is visible;
-- publishes and reads short-lived signed peer-directory leases so later fresh
-  portables can find current seeds without an official bootstrap list;
-- tries UPnP port mapping during public startup, and only treats observed public
-  addresses as dialable when the directory endpoint can probe that TCP port;
+- joins discovered peers through libp2p rendezvous nodes, or starts locally in
+  seed mode while continuing to look for peers;
+- advertises and discovers peers over libp2p rendezvous instead of the older
+  HTTP peer-directory endpoint;
+- tries UPnP port mapping during public startup and advertises only addresses
+  that are usable by the libp2p network;
 - asks interactive users which approved public runtime to join; each runtime
   maps to a stable canonical shared experiment, and the normal public menu does
   not create new shared experiments for now;
@@ -238,11 +238,11 @@ https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 
 That manifest currently has no official static bootstrap peers and leaves
 `registry_git_url` empty, so normal users do not need GitHub credentials or the
-private AGI repository. It does include peer-directory rendezvous URLs. Your
-portable publishes a signed short-lived address lease there and reads leases
-from other peers. If no active peer address is discovered, your portable starts
-as the first seed for the selected approved runtime and keeps checking the
-directory for later peers.
+private AGI repository. Discovery uses two libp2p rendezvous peers and no HTTP
+peer-directory URL. Your portable advertises itself through rendezvous and also
+syncs peer knowledge with peers after the first libp2p connection. If no active
+peer is discovered immediately, your portable starts in seed mode for the
+selected approved runtime and keeps checking rendezvous for later peers.
 
 Windows PowerShell:
 
@@ -300,7 +300,7 @@ At startup the peer prints:
 
 - the workspace path;
 - the network config source;
-- the peer-directory rendezvous count;
+- the libp2p rendezvous peer count;
 - the selected LLM backend;
 - whether static bootstrap peers are configured;
 - the selected project and experiment;
@@ -311,7 +311,7 @@ The expected public-test path is:
 ```text
 network-config=https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 startup-mode=automatic
-peer-directory-rendezvous=1
+libp2p-rendezvous-peers=2
 verification-mode=community
 starting peer for project=gpt2-tinystories
 status-feedback=enabled interval=30s signals=[network,experiment]
