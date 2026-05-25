@@ -20,8 +20,9 @@ Current public test release:
 The portable peer is a single executable that joins the AGI public test network.
 When it is running with a working LLM backend, it:
 
-- joins discovered peers through libp2p rendezvous nodes, or starts locally in
-  seed mode while continuing to look for peers;
+- joins discovered peers through libp2p rendezvous nodes, uses DHT as a
+  fallback after initial contact, or starts locally in seed mode while
+  continuing to look for peers;
 - advertises and discovers peers over libp2p rendezvous instead of the older
   HTTP peer-directory endpoint;
 - tries UPnP port mapping during public startup and advertises only addresses
@@ -238,11 +239,12 @@ https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 
 That manifest currently has no official static bootstrap peers and leaves
 `registry_git_url` empty, so normal users do not need GitHub credentials or the
-private AGI repository. Discovery uses two libp2p rendezvous peers and no HTTP
-peer-directory URL. Your portable advertises itself through rendezvous and also
-syncs peer knowledge with peers after the first libp2p connection. If no active
-peer is discovered immediately, your portable starts in seed mode for the
-selected approved runtime and keeps checking rendezvous for later peers.
+private AGI repository. Discovery uses two libp2p rendezvous peers, enables
+DHT fallback after initial contact, and uses no HTTP peer-directory URL. Your
+portable advertises itself through rendezvous and the DHT, then also syncs peer
+knowledge with peers after the first libp2p connection. If no active peer is
+discovered immediately, your portable starts in seed mode for the selected
+approved runtime and keeps checking rendezvous/DHT for later peers.
 
 Windows PowerShell:
 
@@ -301,6 +303,7 @@ At startup the peer prints:
 - the workspace path;
 - the network config source;
 - the libp2p rendezvous peer count;
+- whether DHT fallback is enabled;
 - the selected LLM backend;
 - whether static bootstrap peers are configured;
 - the selected project and experiment;
@@ -312,6 +315,7 @@ The expected public-test path is:
 network-config=https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 startup-mode=automatic
 libp2p-rendezvous-peers=2
+libp2p-dht-discovery=enabled
 verification-mode=community
 starting peer for project=gpt2-tinystories
 status-feedback=enabled interval=30s signals=[network,experiment]
@@ -466,6 +470,9 @@ This release was tested before publication through the public mirror path:
   peers and backs off unsupported peer-directory sync for several minutes, so
   clients can use libp2p rendezvous for discovery without repeated unsupported
   `/autoresearch/...` protocol negotiation messages;
+- `v0.2.73` was also live-tested with DHT fallback: a fresh Windows peer used
+  DHT plus one bootstrap seed, no rendezvous discovery, discovered the Linux
+  research peer via `libp2p_dht`, and exchanged runs/verifications;
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
 - `v0.2.64` Windows `--print-config` confirms `bootstrap_peers=[]` and the

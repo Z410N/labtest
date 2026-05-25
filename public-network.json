@@ -22,7 +22,7 @@
   "bootstrap_timeout_seconds": 5.0,
   "shared_experiment_discovery_seconds": 15.0,
   "registry_publish_interval_seconds": 30.0,
-  "enable_dht": false,
+  "enable_dht": true,
   "enable_upnp": true,
   "enable_libp2p_rendezvous_service": true,
   "libp2p_rendezvous_register_ttl_seconds": 600.0,
