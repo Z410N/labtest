@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.73-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.73-public-test.1)
+[`v0.2.74-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.74-public-test.1)
 
 ## What This Portable Does
 
@@ -76,9 +76,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.73-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.74-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.73-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.74-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -87,8 +87,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-ef75a9903490ca1da810a366add2cc4f297f1ccb1389cb9374155b5ae4245228  agi-peer-linux-x64
-f12bb5d9bd3b947653dc7e30684b84c0e422ccc97bfba7d69394b7655ac93849  agi-peer-windows-x64.exe
+01ee8330b43675e75b9af49b51389cdbcffe1907808a56dea6f81d3c6d4ec6cd  agi-peer-linux-x64
+107c7c4a3f67e48c82f57f6977d9f34414087cb5aba41bdd2ca534b871d69abc  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -321,12 +321,13 @@ starting peer for project=gpt2-tinystories
 status-feedback=enabled interval=30s signals=[network,experiment]
 ```
 
-With the current public manifest, there are no official bootstrap peers. A
-first peer can start in seed mode and publish a signed lease to the peer
-directory. Later peers keep checking that directory and can join through any
-dialable lease they find. If your machine is behind NAT or a firewall, it may
-publish no reusable inbound address; it can still discover and dial a reachable
-public peer.
+With the current public manifest, there are no official static bootstrap peers.
+A first peer can start in seed mode, register with the configured libp2p
+rendezvous peers, and participate in DHT discovery after it has an initial
+network contact. Later peers keep checking rendezvous/DHT and can join through
+any dialable address they find. If your machine is behind NAT or a firewall, it
+may publish no reusable inbound address; it can still discover and dial a
+reachable public peer.
 
 ## Live Console Feedback
 
@@ -466,10 +467,10 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 
 This release was tested before publication through the public mirror path:
 
-- `v0.2.73` keeps application-level sync away from configured rendezvous-only
-  peers and backs off unsupported peer-directory sync for several minutes, so
-  clients can use libp2p rendezvous for discovery without repeated unsupported
-  `/autoresearch/...` protocol negotiation messages;
+- `v0.2.74` carries the rendezvous/DHT discovery hardening from `v0.2.73` and
+  adds flag-gated libp2p relay-service and hole-punching support; the public
+  manifest keeps relay flags disabled until the dedicated dial-through-relay
+  gate is complete;
 - `v0.2.73` was also live-tested with DHT fallback: a fresh Windows peer used
   DHT plus one bootstrap seed, no rendezvous discovery, discovered the Linux
   research peer via `libp2p_dht`, and exchanged runs/verifications;
@@ -548,12 +549,12 @@ or set the required API key environment variable in the same terminal.
 
 ### Connected peers stay at zero
 
-With the current no-official-bootstrap manifest, a first peer can legitimately
-start alone in seed mode. Later peers should discover it from the peer
-directory when the first peer has a dialable address and at least one directory
-endpoint is reachable. Check `peer_directory_publish` in `metrics.json`; if it
-is disabled or failing, the peer is running locally but not advertising through
-the shared rendezvous plane.
+With the current no-official-static-bootstrap manifest, a first peer can
+legitimately start alone in seed mode. Later peers should discover it through
+the configured libp2p rendezvous peers and, after initial network contact, DHT
+fallback. If it never becomes visible, check whether your peer has a dialable
+public address or can at least make outbound connections to the rendezvous
+peers.
 
 ### `executed_runs` does not increase
 
