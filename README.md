@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.74-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.74-public-test.1)
+[`v0.2.75-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.75-public-test.1)
 
 ## What This Portable Does
 
@@ -76,9 +76,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.74-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.75-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.74-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.75-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -87,8 +87,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-01ee8330b43675e75b9af49b51389cdbcffe1907808a56dea6f81d3c6d4ec6cd  agi-peer-linux-x64
-107c7c4a3f67e48c82f57f6977d9f34414087cb5aba41bdd2ca534b871d69abc  agi-peer-windows-x64.exe
+f875244d1878c0b466d8e54f3fe989d51d56de8f7a02f25175915f5d5b9460ae  agi-peer-linux-x64
+5372a39d7eccb5e157b4346d9f57666c3e57210573a0ecf1fb6a0d161581fe42  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -467,7 +467,9 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 
 This release was tested before publication through the public mirror path:
 
-- `v0.2.74` carries the rendezvous/DHT discovery hardening from `v0.2.73` and
+- `v0.2.75` carries the rendezvous/DHT discovery hardening from `v0.2.73`,
+  fixes a verifier-sync shutdown crash found during the first `v0.2.74`
+  60-minute gate attempt, and
   adds flag-gated libp2p relay-service and hole-punching support; the public
   manifest keeps relay flags disabled until the dedicated dial-through-relay
   gate is complete;
