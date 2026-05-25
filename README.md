@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.71-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.71-public-test.1)
+[`v0.2.72-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.72-public-test.1)
 
 ## What This Portable Does
 
@@ -75,9 +75,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.71-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.72-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.71-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.72-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -86,8 +86,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-94a59bcb96f755e253da718888ab9352967a61aa2e7ce629974a70f1a689b23d  agi-peer-linux-x64
-5caccacf91a351e17f0779759c4ed93b59b53c70ddb6aad8e0ac64d5dfc64eed  agi-peer-windows-x64.exe
+dc52496e37dd8a6d01c9d58570b595faf7d95fcda8a97e1ba4eb0a2ee1c23539  agi-peer-linux-x64
+00fd8d95f227e0b4247736cf8cb122c70b2d472b95248871827de8739b96f2ce  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -462,9 +462,10 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 
 This release was tested before publication through the public mirror path:
 
-- `v0.2.71` keeps application-level sync away from configured rendezvous-only
-  peers, so clients can use libp2p rendezvous for discovery without repeated
-  unsupported `/autoresearch/...` protocol negotiation messages;
+- `v0.2.72` keeps application-level sync away from configured rendezvous-only
+  peers and backs off unsupported peer-directory sync for several minutes, so
+  clients can use libp2p rendezvous for discovery without repeated unsupported
+  `/autoresearch/...` protocol negotiation messages;
 - anonymous Windows and Linux release downloads succeeded;
 - SHA256 values matched `checksums.txt`;
 - `v0.2.64` Windows `--print-config` confirms `bootstrap_peers=[]` and the
