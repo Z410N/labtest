@@ -25,6 +25,8 @@
   "enable_dht": true,
   "enable_upnp": true,
   "enable_libp2p_rendezvous_service": true,
+  "enable_libp2p_relay_service": true,
+  "enable_libp2p_hole_punching": true,
   "libp2p_rendezvous_register_ttl_seconds": 600.0,
   "libp2p_rendezvous_discovery_interval_seconds": 10.0,
   "libp2p_rendezvous_discover_limit": 20,

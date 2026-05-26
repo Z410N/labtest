@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.75-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.75-public-test.1)
+[`v0.2.83-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.83-public-test.1)
 
 ## What This Portable Does
 
@@ -25,6 +25,8 @@ When it is running with a working LLM backend, it:
   continuing to look for peers;
 - advertises and discovers peers over libp2p rendezvous instead of the older
   HTTP peer-directory endpoint;
+- uses libp2p circuit relay / hole-punch support so NAT-bound peers can join
+  through reachable relay peers instead of needing direct inbound reachability;
 - tries UPnP port mapping during public startup and advertises only addresses
   that are usable by the libp2p network;
 - asks interactive users which approved public runtime to join; each runtime
@@ -49,9 +51,10 @@ You need:
 
 - Windows 10/11 or a recent Linux x86_64 system;
 - normal outbound network access;
-- inbound TCP `4101`, UPnP, or manual port forwarding if you want your machine
-  to be reachable as a reusable seed. Without that, the peer can still join
-  reachable public peers outbound and participate in research/sync;
+- normal outbound access to the public rendezvous/relay peers; inbound TCP
+  `4101`, UPnP, or manual port forwarding is useful if you want your machine
+  to be reachable directly, but NAT-bound peers can still join through relay
+  when at least one configured relay peer is reachable;
 - one working LLM backend, either API-key based or a local flat-plan CLI login;
 - enough local disk space for the workspace, run records, logs, and temporary
   project files.
@@ -76,9 +79,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.75-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.83-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.75-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.83-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -87,8 +90,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-f875244d1878c0b466d8e54f3fe989d51d56de8f7a02f25175915f5d5b9460ae  agi-peer-linux-x64
-5372a39d7eccb5e157b4346d9f57666c3e57210573a0ecf1fb6a0d161581fe42  agi-peer-windows-x64.exe
+cc8afb810e48489a8d92e4c31251ddfa89b10305040780a8a5926fc4f20fea62  agi-peer-linux-x64
+796541149a8d162cb3a00c188679ebd33d674a82ce0487822fd268fc71adb56e  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -240,11 +243,13 @@ https://raw.githubusercontent.com/Z410N/labtest/main/public-network.json
 That manifest currently has no official static bootstrap peers and leaves
 `registry_git_url` empty, so normal users do not need GitHub credentials or the
 private AGI repository. Discovery uses two libp2p rendezvous peers, enables
-DHT fallback after initial contact, and uses no HTTP peer-directory URL. Your
-portable advertises itself through rendezvous and the DHT, then also syncs peer
-knowledge with peers after the first libp2p connection. If no active peer is
-discovered immediately, your portable starts in seed mode for the selected
-approved runtime and keeps checking rendezvous/DHT for later peers.
+DHT fallback after initial contact, enables circuit relay / hole-punching, and
+uses no HTTP peer-directory URL. Your portable advertises itself through
+rendezvous and DHT, reserves relay paths when reachable relay peers are
+available, then also syncs peer knowledge with peers after the first libp2p
+connection. If no active peer is discovered immediately, your portable starts
+in seed mode for the selected approved runtime and keeps checking
+rendezvous/DHT/relay paths for later peers.
 
 Windows PowerShell:
 
@@ -316,6 +321,8 @@ network-config=https://raw.githubusercontent.com/Z410N/labtest/main/public-netwo
 startup-mode=automatic
 libp2p-rendezvous-peers=2
 libp2p-dht-discovery=enabled
+libp2p-relay-service=enabled
+libp2p-hole-punching=enabled
 verification-mode=community
 starting peer for project=gpt2-tinystories
 status-feedback=enabled interval=30s signals=[network,experiment]
@@ -326,8 +333,9 @@ A first peer can start in seed mode, register with the configured libp2p
 rendezvous peers, and participate in DHT discovery after it has an initial
 network contact. Later peers keep checking rendezvous/DHT and can join through
 any dialable address they find. If your machine is behind NAT or a firewall, it
-may publish no reusable inbound address; it can still discover and dial a
-reachable public peer.
+may publish no reusable direct inbound address; it can still discover and dial
+a reachable public peer, and can be reached through a configured relay when a
+relay reservation is available.
 
 ## Live Console Feedback
 
@@ -390,8 +398,7 @@ Healthy research and verification progress is visible in `metrics.json`:
     "enabled": false
   },
   "peer_directory_publish": {
-    "enabled": true,
-    "success_count": 1
+    "enabled": false
   }
 }
 ```
@@ -406,8 +413,8 @@ peer work is available to verify. For a basic smoke test, look for:
 - `completed_verifications` increasing when peer runs are available;
 - `llm_progress.success_count` increasing;
 - `llm_progress.failure_count=0` during a healthy provider window;
-- `peer_directory_publish.success_count` increasing when a directory endpoint
-  is reachable;
+- no repeated libp2p TCP, DHT, signed-record, or relay recovery spam in normal
+  console output;
 - `registry_publish.enabled=false` for the public onboarding path.
 
 ## Provider Quota And Rate Limits
@@ -465,76 +472,51 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 
 ## Current Test Evidence
 
-This release was tested before publication through the public mirror path:
+This release was tested before publication through the private and public
+portable paths:
 
-- `v0.2.75` carries the rendezvous/DHT discovery hardening from `v0.2.73`,
-  fixes a verifier-sync shutdown crash found during the first `v0.2.74`
-  60-minute gate attempt, and
-  adds flag-gated libp2p relay-service and hole-punching support; the public
-  manifest keeps relay flags disabled until the dedicated dial-through-relay
-  gate is complete;
+- `v0.2.83` passed the dedicated relay/hole-punch NAT dial-through gate with
+  two routable Linux rendezvous+relay peers, one Linux NAT-sim peer, and one
+  Windows NAT-sim peer;
+- the four-peer relay gate held `3/3` connected peers on all four nodes for
+  every monitored sample, both NAT-sim peers advertised `/p2p-circuit`
+  addresses, and Windows recorded successful circuit dialing to the Linux
+  NAT-sim peer;
+- normal stderr stayed quiet on all four relay-gate hosts after transient
+  libp2p relay/DHT recovery noise was filtered;
+- `v0.2.75-public-test.1` passed the previous 60-minute rendezvous/DHT public
+  mirror gate with two rendezvous nodes, fresh Windows and Linux research
+  peers, real LLM calls, run propagation, community verification progress, and
+  private registry disabled;
 - `v0.2.73` was also live-tested with DHT fallback: a fresh Windows peer used
-  DHT plus one bootstrap seed, no rendezvous discovery, discovered the Linux
-  research peer via `libp2p_dht`, and exchanged runs/verifications;
-- anonymous Windows and Linux release downloads succeeded;
-- SHA256 values matched `checksums.txt`;
-- `v0.2.64` Windows `--print-config` confirms `bootstrap_peers=[]` and the
-  public peer-directory URL from the public manifest;
-- `v0.2.64` includes automatic cleanup for stale seed-mode address-book entries
-  when starting as a seed with no active peers and no configured bootstrap
-  peers;
-- `v0.2.64` publishes signed peer-directory leases, syncs directory leases over
-  both the public rendezvous endpoint and connected peers, ignores non-public
-  loopback/LAN leases as public bootstrap targets, and backs off noisy repeated
-  connection/provider failures;
-- `v0.2.64` keeps headless auto-selection for services, but interactive
-  startup now asks the user to choose the LLM backend even when a saved config
-  exists or only one ready backend is found;
-- `v0.2.64` sends ChatGPT/Codex prompts to `codex exec` as UTF-8 and normalizes
-  ChatGPT model shortcuts like `5.5` to `gpt-5.5`;
-- `v0.2.64` reads local peer JSON files such as `llm.json`, `host_key.json`,
-  `address_book.json`, and `metrics.json` even if a Windows editor writes a
-  UTF-8 BOM, avoiding silent local-only fallback during libp2p startup;
-- `v0.2.64` keeps peer-directory lease signatures backward compatible with the
-  currently deployed public directory, so new diagnostic address fields do not
-  cause `HTTP 403` publish failures on older directory servers;
-- `v0.2.64` throttles repeated libp2p `Rate limit exceeded` log lines, suppresses
-  user-facing `Failed to open TCP stream` dial failures, raises the gossipsub
-  burst allowance used during legitimate research backfill, and prunes stale
-  peer-directory addresses after repeated failed dials;
-- `v0.2.64` suppresses non-actionable libp2p wildcard security-upgrade noise
-  such as `/ip4/0.0.0.0/tcp/...`, suppresses transient unsupported
-  `/autoresearch/...` protocol negotiation noise from half-started peers, and
-  prunes stale peer-directory addresses after two failed dials, and moves
-  address-book reconnect attempts into a 5-minute quiet window after two failed
-  dials while keeping configured bootstrap peers more responsive;
-- `v0.2.64` adds live user-facing `[network]` and `[experiment]` console
-  feedback so users can distinguish healthy peer connectivity, valid seed-mode
-  waiting, active LLM work, recorded runs/verifications, and provider pauses;
-- a live compatibility smoke published a short-lived lease through the current
-  public directory endpoint and confirmed it appeared in `/v1/peers`;
-- source tests cover a peer that starts before a directory-discovered seed
-  appears and then connects through the directory-fed address book;
-- the earlier no-env fresh Windows dry run connected to the three managed
-  bootstrap peers used by the historical `v0.2.48` gate;
-- the historical 60-minute five-peer public-mirror gate passed with `ok=true`;
-- five peers used real LLM calls;
-- Windows and Linux fresh-peer runs propagated through the historical
-  bootstrap-mediated mesh;
-- community verification completed;
-- the private registry stayed disabled for public onboarding.
+  DHT plus one initial seed contact to discover a Linux research peer and
+  exchange runs/verifications;
+- anonymous Windows and Linux release downloads are verified against
+  `checksums.txt`;
+- the Windows `--print-config` smoke confirms `bootstrap_peers=[]`,
+  `peer_directory_urls=[]`, two libp2p rendezvous peers, DHT enabled, relay
+  service enabled, hole-punching enabled, community verification enabled, and
+  private registry disabled;
+- the public launcher still asks interactive users to choose the LLM backend
+  even when a saved config exists or only one ready backend is found;
+- ChatGPT/Codex prompts are sent to `codex exec` as UTF-8 and model shortcuts
+  like `5.5` are normalized to `gpt-5.5`;
+- local peer JSON files such as `llm.json`, `host_key.json`,
+  `address_book.json`, and `metrics.json` are accepted even if a Windows editor
+  writes a UTF-8 BOM;
+- stale peer addresses and repeated provider/connection failures are backed
+  off so ordinary users should not see endless reconnect spam;
+- live `[network]` and `[experiment]` console feedback distinguishes connected
+  peers, valid seed-mode waiting, active LLM work, recorded runs/verifications,
+  and provider pauses.
 
-Known warning-level behavior from the historical accepted gate:
+Known public-test caveat:
 
-- direct fresh Windows to fresh Linux visibility may be absent while
-  bootstrap-mediated data exchange still works;
-- some retryable announcement suppressions can appear while ACK progress and
-  run propagation continue;
-- startup-only libp2p connection-close tracebacks may appear during inbound
-  connection churn.
-
-These are not considered gate failures when the peer remains healthy, real LLM
-work progresses, runs propagate, and verifications complete.
+- NAT-only peers still need at least one reachable rendezvous/relay peer for
+  first contact. If every known rendezvous/relay peer is offline and your
+  machine is not publicly reachable, your portable can still run locally in
+  seed mode, but unrelated NAT-only peers cannot discover it without some
+  shared discovery/relay contact.
 
 ## Troubleshooting
 
