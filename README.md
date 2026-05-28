@@ -1,4 +1,4 @@
-# AGI Portable Peer Public Test
+﻿# AGI Portable Peer Public Test
 
 This repository is the minimal public download page for testing AGI portable
 peer onboarding before the main AGI repository is made public.
@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.83-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.83-public-test.1)
+[`v0.2.91-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.91-public-test.1)
 
 ## What This Portable Does
 
@@ -79,9 +79,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.83-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.91-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.83-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.91-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -90,8 +90,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-cc8afb810e48489a8d92e4c31251ddfa89b10305040780a8a5926fc4f20fea62  agi-peer-linux-x64
-796541149a8d162cb3a00c188679ebd33d674a82ce0487822fd268fc71adb56e  agi-peer-windows-x64.exe
+a1c4f8c3f5c5b11282e492d3747584d31f403fd5c2e7f98d82a10fa1468d373b  agi-peer-linux-x64
+cfe036db931a887aeb15eaff3b17c3985b01fd4bef8f1e78ef08893a92267c9e  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -560,3 +560,4 @@ run locally while community verification waits for peer work.
   configuration are easy to inspect.
 - The current public test is for network onboarding and early token-distribution
   readiness. It is not the final staking/slashing production mode.
+

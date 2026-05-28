@@ -5,8 +5,8 @@
   "bootstrap_peers": [],
   "peer_directory_urls": [],
   "libp2p_rendezvous_peers": [
-    "/ip4/46.101.185.184/tcp/4101/p2p/12D3KooWJhkK1dLhFyrJpdoBMz5daC1RA4E75r2CU1weExcmds9C",
-    "/ip4/134.209.234.191/tcp/4101/p2p/12D3KooWBhdvHHvGXcSfLaf1ykBKpc154vvFzaq6Er3yWsrYFgun"
+    "/ip4/46.101.185.184/tcp/4101/p2p/12D3KooWMXbTx4tgvZieicGDrr2JXmS5ok88rYWKoMDUWakAL4Ak",
+    "/ip4/134.209.234.191/tcp/4101/p2p/12D3KooWDSyJgzL6LpaVBwQTCWYjHi3hxb12CZ1HGgAaFAyuMBSn"
   ],
   "libp2p_rendezvous_namespaces": [],
   "listen_multiaddrs": [
