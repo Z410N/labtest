@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.91-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.91-public-test.1)
+[`v0.2.92-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.92-public-test.1)
 
 ## What This Portable Does
 
@@ -79,9 +79,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.91-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.92-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.91-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.92-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -90,8 +90,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-a1c4f8c3f5c5b11282e492d3747584d31f403fd5c2e7f98d82a10fa1468d373b  agi-peer-linux-x64
-cfe036db931a887aeb15eaff3b17c3985b01fd4bef8f1e78ef08893a92267c9e  agi-peer-windows-x64.exe
+2b578ab446fc748825c193926572901faa208179e6b39ae27f3e2289e0091150  agi-peer-linux-x64
+e53fc5a535dea8aaff956b699bd528a8a8cbe6b08d792491495f5d9b275d93d3  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -475,6 +475,13 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 This release was tested before publication through the private and public
 portable paths:
 
+- `v0.2.92` passed the PP-13 controlled public-pilot chaos gate for 2 hours
+  with two managed rendezvous/relay nodes plus a local Windows user portable
+  and a Linux droplet user portable. The gate included 8 random restarts on
+  each user peer, recovered to full user mesh after restart windows, produced
+  real LLM-backed research runs, completed community verifications, and ended
+  with zero LLM failures, zero push failures, zero stable isolated samples, and
+  quiet checked relay/user logs;
 - `v0.2.83` passed the dedicated relay/hole-punch NAT dial-through gate with
   two routable Linux rendezvous+relay peers, one Linux NAT-sim peer, and one
   Windows NAT-sim peer;
