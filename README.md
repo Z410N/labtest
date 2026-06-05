@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.92-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.92-public-test.1)
+[`v0.2.99-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.99-public-test.1)
 
 ## What This Portable Does
 
@@ -79,9 +79,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.92-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.99-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.92-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.99-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -90,8 +90,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-2b578ab446fc748825c193926572901faa208179e6b39ae27f3e2289e0091150  agi-peer-linux-x64
-e53fc5a535dea8aaff956b699bd528a8a8cbe6b08d792491495f5d9b275d93d3  agi-peer-windows-x64.exe
+b1458092b0977f4445db9e1bb12f2576ee891e2fd3613ae78b074c05d9b19c4f  agi-peer-linux-x64
+376c86da9e2b52ab30d1e62252c5e6d2c00aae9a30677ba1ef2e99f2982ee1f8  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -475,6 +475,16 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 This release was tested before publication through the private and public
 portable paths:
 
+- `v0.2.99` passed a fresh staggered discovery/best-frontier gate with three
+  Linux droplets and one local Windows portable. Peers started 5 minutes apart,
+  resolved peer-id-less libp2p rendezvous endpoints dynamically, reached
+  `connected_peer_count=3` on all four nodes, reported initial peer/state sync,
+  adopted the current network best instead of starting isolated, completed real
+  LLM-backed research calls, and improved the public runtime metric from
+  baseline `3.448` to best `3.2152`;
+- `v0.2.99` keeps public bootstrap peers empty and uses peer-id-less rendezvous
+  entrypoints so stale static `/p2p/<peer-id>` values do not break discovery
+  after a seed/rendezvous node refresh;
 - `v0.2.92` passed the PP-13 controlled public-pilot chaos gate for 2 hours
   with two managed rendezvous/relay nodes plus a local Windows user portable
   and a Linux droplet user portable. The gate included 8 random restarts on
