@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.99-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.99-public-test.1)
+[`v0.2.102-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.102-public-test.1)
 
 ## What This Portable Does
 
@@ -79,9 +79,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.99-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.102-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.99-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.102-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -90,8 +90,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-b1458092b0977f4445db9e1bb12f2576ee891e2fd3613ae78b074c05d9b19c4f  agi-peer-linux-x64
-376c86da9e2b52ab30d1e62252c5e6d2c00aae9a30677ba1ef2e99f2982ee1f8  agi-peer-windows-x64.exe
+9b17202f7891c5723b469c98b94fa08cecc07e47570613464e1a1c9030239510  agi-peer-linux-x64
+53d1ccd47efee5be9b7e1e2b53724d2c5dc4841cde92eb6d2e0d7fcdc2155c97  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -475,6 +475,15 @@ Do not publish your workspace, `config/llm-secrets.json`, or `keys/` directory.
 This release was tested before publication through the private and public
 portable paths:
 
+- `v0.2.102` passed the relay-cache recovery production-readiness gate from
+  GitHub release artifacts: a fresh Linux peer imported the best known run from
+  the bounded relay cache instead of restarting from baseline, relay restart
+  persistence recovered the same best from a second fresh Linux peer, and a
+  30-minute relay-backup soak with two Linux peers plus one Windows peer
+  survived staged peer restarts, stayed `degraded=false`, kept
+  `connected_peer_count=3` on all normal peers, and converged to
+  `best_metric=3.2399` with
+  `best_experiment_id=b4354201c4863320fb3efdf3a0902b927e1f3f51abfdd567c61ce1c9f33ec2b6`;
 - `v0.2.99` passed a fresh staggered discovery/best-frontier gate with three
   Linux droplets and one local Windows portable. Peers started 5 minutes apart,
   resolved peer-id-less libp2p rendezvous endpoints dynamically, reached
