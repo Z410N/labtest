@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.102-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.102-public-test.1)
+[`v0.2.105-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.105-public-test.1)
 
 ## What This Portable Does
 
@@ -79,9 +79,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.102-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.105-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.102-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.105-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -90,8 +90,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-9b17202f7891c5723b469c98b94fa08cecc07e47570613464e1a1c9030239510  agi-peer-linux-x64
-53d1ccd47efee5be9b7e1e2b53724d2c5dc4841cde92eb6d2e0d7fcdc2155c97  agi-peer-windows-x64.exe
+115f9ee2c6a320a67506ee75e8206e3de164a8537689ce5309a94b86dc1afe45  agi-peer-linux-x64
+c15d287c257fd2eec045d96bbbce204afd36efbf91129c5b9885a50787247871  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
@@ -284,13 +284,18 @@ Interactive startup shows the approved public runtimes from
 - `gpt2-tinystories`
 - `astrophysics`
 - `financial-analysis`
+- `ecdsa-secp256k1`
 
 It then asks which approved runtime to join. The rows are sorted by active peer
 count, so row `1` is the recommended runtime when peers are already visible.
 When a runtime has no visible peer yet, selecting it starts your portable as the
 first seed for that runtime's canonical shared experiment. For example,
-selecting `2` for `astrophysics` or `3` for `financial-analysis` is valid even
-when the active peer count is `0`.
+selecting `2` for `astrophysics`, `3` for `financial-analysis`, or `4` for
+`ecdsa-secp256k1` is valid even when the active peer count is `0`.
+
+`ecdsa-secp256k1` wraps the ECDSA.fail benchmark. It is selectable from the
+portable, but real local runs require Bash, Rust/Cargo/rustup, and a C compiler.
+If those tools are not available yet, use one of the Python runtimes first.
 
 The normal public portable menu does not create new shared experiments for now.
 Users join approved runtimes only. This keeps public startup simple and avoids

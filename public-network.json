@@ -15,7 +15,8 @@
   "supported_projects": [
     "gpt2-tinystories",
     "astrophysics",
-    "financial-analysis"
+    "financial-analysis",
+    "ecdsa-secp256k1"
   ],
   "default_project_id": "gpt2-tinystories",
   "default_shared_experiment_id": "8569de794c1790c8528ea6ff9710b02417883b6dc5c477354e12c7c3f3bb12f5",
