@@ -13,7 +13,7 @@ are:
 - release assets attached to the GitHub release.
 
 Current public test release:
-[`v0.2.106-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.106-public-test.1)
+[`v0.2.107-public-test.1`](https://github.com/Z410N/labtest/releases/tag/v0.2.107-public-test.1)
 
 ## What This Portable Does
 
@@ -79,9 +79,9 @@ provider limits.
 Download the binary for your platform from the current release:
 
 - Windows:
-  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.106-public-test.1/agi-peer-windows-x64.exe)
+  [`agi-peer-windows-x64.exe`](https://github.com/Z410N/labtest/releases/download/v0.2.107-public-test.1/agi-peer-windows-x64.exe)
 - Linux:
-  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.106-public-test.1/agi-peer-linux-x64)
+  [`agi-peer-linux-x64`](https://github.com/Z410N/labtest/releases/download/v0.2.107-public-test.1/agi-peer-linux-x64)
 - Checksums:
   [`checksums.txt`](https://github.com/Z410N/labtest/blob/main/checksums.txt)
 - Public network manifest:
@@ -90,8 +90,8 @@ Download the binary for your platform from the current release:
 Expected SHA256:
 
 ```text
-c9de5014519df764dddabe6175b1740662efbe2b001374cfc41b06262c18f56f  agi-peer-linux-x64
-d09ae9d1641fdc99e476586b9108057a8082c7290077ed0461a96fa1de48652c  agi-peer-windows-x64.exe
+3bc1315a568ac91fd95df7c4dfbc4e3ab9945d8605dcd9e7ab5d30e4541680b2  agi-peer-linux-x64
+a3a2974f758dfe004054a7c93f4853298bb82f7ec1ac17c28eccad7f197cd4b4  agi-peer-windows-x64.exe
 ```
 
 ## Verify The Download
